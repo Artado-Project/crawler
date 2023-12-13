@@ -576,24 +576,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\arda.DESKTOP-73M5J5F\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\ardam\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\arda.DESKTOP-73M5J5F\\source\\repos\\crawler\\crawler\\crawler.csproj",
+      "projectUniqueName": "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\crawler.csproj",
       "projectName": "crawler",
-      "projectPath": "C:\\Users\\arda.DESKTOP-73M5J5F\\source\\repos\\crawler\\crawler\\crawler.csproj",
-      "packagesPath": "C:\\Users\\arda.DESKTOP-73M5J5F\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\arda.DESKTOP-73M5J5F\\source\\repos\\crawler\\crawler\\obj\\",
+      "projectPath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\crawler.csproj",
+      "packagesPath": "C:\\Users\\ardam\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\arda.DESKTOP-73M5J5F\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\ardam\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -648,7 +643,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

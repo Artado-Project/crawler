@@ -58,7 +58,7 @@ class Main
 {
     public static void MainFunc(string websiteUrl, List<string> disallowedUrls)
     {
-        string jsonFilePath = "C:\\Users\\arda.DESKTOP-73M5J5F\\source\\repos\\crawler\\crawler\\visitlist.json";
+        string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
 
         try
         {
@@ -112,7 +112,7 @@ class Main
                         }
                         else
                         {
-                            Console.WriteLine("Link already saved");
+                            Console.WriteLine("Link already saved.");
                         }
 
                         // Mark the link as visited

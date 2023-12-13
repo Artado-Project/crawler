@@ -12,7 +12,7 @@ namespace crawler
         public string? URL { get; set; }
         public string? Description { get; set; }
         public string? Keywords { get; set; }
-        public int? Rank { get; set; }
+        public double? Rank { get; set; }
         public string? Lang { get; set; }
     }
 }
