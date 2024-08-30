@@ -46,3 +46,27 @@ C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\refint\crawler.dll
 C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.pdb
 C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.genruntimeconfig.cache
 C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\ref\crawler.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.exe
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.deps.json
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.runtimeconfig.json
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.pdb
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\HtmlAgilityPack.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\System.Data.SqlClient.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.csproj.AssemblyReference.cache
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.AssemblyInfoInputs.cache
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.AssemblyInfo.cs
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.csproj.CoreCompileInputs.cache
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.csproj.CopyComplete
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\refint\crawler.dll
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.pdb
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.genruntimeconfig.cache
+C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\ref\crawler.dll

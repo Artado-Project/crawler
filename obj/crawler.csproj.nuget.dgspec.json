@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\crawler.csproj": {}
+    "C:\\Users\\ardam\\Documents\\GitHub\\crawler cs\\crawler.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\crawler.csproj": {
+    "C:\\Users\\ardam\\Documents\\GitHub\\crawler cs\\crawler.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\crawler.csproj",
+        "projectUniqueName": "C:\\Users\\ardam\\Documents\\GitHub\\crawler cs\\crawler.csproj",
         "projectName": "crawler",
-        "projectPath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\crawler.csproj",
+        "projectPath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler cs\\crawler.csproj",
         "packagesPath": "C:\\Users\\ardam\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\obj\\",
+        "outputPath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler cs\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ardam\\AppData\\Roaming\\NuGet\\NuGet.Config",

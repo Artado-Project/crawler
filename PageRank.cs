@@ -12,21 +12,34 @@ namespace crawler
         {
             int totalUrls = hrefs.Count;
 
-            // Initialize PageRank values
-            double rank = 1.0 / totalUrls;
-
-            double newRank = (1 - dampingFactor) / totalUrls;
-
-            // Perform iterations to update PageRank values
-            for (int i = 0; i < iterations; i++)
+            try
             {
-                if (backlinksMap.Contains(url))
+                if (backlinksMap.Count > 0)
                 {
-                    newRank += dampingFactor * (rank / backlinksMap.Count);
+                    // Initialize PageRank values
+                    double rank = 1.0 / totalUrls;
+
+                    double newRank = (1 - dampingFactor) / totalUrls;
+
+                    // Perform iterations to update PageRank values
+                    for (int i = 0; i < iterations; i++)
+                    {
+                        if (backlinksMap.Contains(url))
+                        {
+                            newRank += dampingFactor * (rank / backlinksMap.Count);
+                        }
+                    }
+                    return newRank;
+                }
+                else
+                {
+                    return 0;
                 }
             }
-
-            return newRank;
+            catch
+            {
+                return 0;
+            }
         }
     }
 }

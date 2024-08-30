@@ -8,6 +8,6 @@ namespace crawler
 {
     internal class Config
     {
-        public static string conString = "Data Source=89.252.181.210\\MSSQLSERVER2019;Initial Catalog=artadoco_search;Persist Security Info=True;User ID=artadoco_admin;pwd=Artado#isbest#14;MultipleActiveResultSets=True";
+        public static string conString = "Data Source=89.252.181.210\\MSSQLSERVER2019;Initial Catalog=artadoco_search;Persist Security Info=True;User ID=artadoco_admin;pwd=EbEXrdF%U=T4?9,;MultipleActiveResultSets=True";
     }
 }

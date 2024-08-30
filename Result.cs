@@ -11,7 +11,7 @@ namespace crawler
         public string? Title { get; set; }
         public string? URL { get; set; }
         public string? Description { get; set; }
-        public string? Keywords { get; set; }
+        public IEnumerable<string>? Keywords { get; set; }
         public double? Rank { get; set; }
         public string? Lang { get; set; }
     }

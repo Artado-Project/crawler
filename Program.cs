@@ -14,10 +14,21 @@ foreach (string url in disallowedUrls)
     Console.WriteLine(url);
 }
 
+string visitlist = string.Empty;
+string resultsjson = string.Empty;
 
-for(int i = 0; i >= 0; i++)
+for (int i = 0; i >= 0; i++)
 {
-    if (!Crawl.IsUrlInVisitList(websiteUrl) && !Crawl.IsUrlInLocal(websiteUrl))
+    //Get the Results JSON
+    string resultspath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
+    if (File.Exists(resultspath))
+        resultsjson = File.ReadAllText(resultspath);
+
+    //Get the Visitlist
+    string visitpath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+    if (File.Exists(visitpath))
+        visitlist = File.ReadAllText(visitpath);
+    if (!Crawl.IsUrlInLocal(websiteUrl, resultsjson))
     {
         bool urlcheck = Robots.IsUrlDisallowed(websiteUrl, disallowedUrls);
 
@@ -42,92 +53,67 @@ for(int i = 0; i >= 0; i++)
                 Crawl.ImportResultsToDB();
             }
 
-            Main.MainFunc(websiteUrl, disallowedUrls);
+            Main.MainFunc(websiteUrl, disallowedUrls, visitlist);
         }
     }
     else
     {
         Console.WriteLine("Link already saved");
 
-        Main.MainFunc(websiteUrl, disallowedUrls);
+        Main.MainFunc(websiteUrl, disallowedUrls, visitlist);
     }
 }
 
-
 class Main
 {
-    public static void MainFunc(string websiteUrl, List<string> disallowedUrls)
+    public async static Task MainFunc(string websiteUrl, List<string> disallowedUrls, string jsonContent)
     {
-        string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+        List<WebsiteLink> links = new List<WebsiteLink>();
 
-        try
+        if (jsonContent != string.Empty)
         {
-            if (File.Exists(jsonFilePath))
+            links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
+        }
+
+        var tasks = links.Where(link => !link.Visited).Select(async link =>
+        {
+            Console.WriteLine("Getting the links from the list");
+            int permalink = link.Url.IndexOf("#");
+
+            bool linkcheck = UrlComparer.AreUrlsDifferent(websiteUrl, link.Url)
+                ? Robots.IsUrlDisallowed(link.Url, Robots.GetDisallowedUrls(link.Url + "/robots.txt"))
+                : Robots.IsUrlDisallowed(link.Url, disallowedUrls);
+
+            if (!linkcheck && !Crawl.IsUrlInLocal(link.Url, jsonContent) && permalink < 0)
             {
-                string jsonContent = File.ReadAllText(jsonFilePath);
-                List<WebsiteLink> links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
+                Result a_result = Crawl.result(link.Url);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Visiting links from the list");
+                Console.WriteLine(a_result.Title);
+                Console.WriteLine(a_result.URL);
+                Console.WriteLine(a_result.Description);
+                Console.WriteLine(a_result.Keywords);
 
-                foreach (var link in links)
+                if (Crawl.GetResultCountFromJson() > 30)
                 {
-                    Console.WriteLine("Getting the links from the list");
-                    if (!link.Visited)
-                    {
-                        int permalink = link.Url.IndexOf("#");
-
-                        bool linkcheck;
-
-                        if (UrlComparer.AreUrlsDifferent(websiteUrl, link.Url))
-                        {
-                            string robotstxt = link.Url + "/robots.txt";
-
-                            List<string> disallowedlinks = Robots.GetDisallowedUrls(robotstxt);
-
-                            Console.WriteLine("Disallowed URLs in robots.txt:");
-                            foreach (string url in disallowedlinks)
-                            {
-                                Console.WriteLine(url);
-                            }
-
-                            linkcheck = Robots.IsUrlDisallowed(link.Url, disallowedlinks);
-                        }
-                        else
-                        {
-                            linkcheck = Robots.IsUrlDisallowed(link.Url, disallowedUrls);
-                        }
-
-                        if (!linkcheck && !Crawl.IsUrlInLocal(link.Url) && permalink < 0)
-                        {
-                            Result a_result = Crawl.result(link.Url);
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Visiting links from the list");
-                            Console.WriteLine(a_result.Title);
-                            Console.WriteLine(a_result.URL);
-                            Console.WriteLine(a_result.Description);
-                            Console.WriteLine(a_result.Keywords);
-
-                            if (Crawl.GetResultCountFromJson() > 30)
-                            {
-                                Crawl.ImportResultsToDB();
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Link already saved.");
-                        }
-
-                        // Mark the link as visited
-                        link.Visited = true;
-
-                        // Serialize and save the updated links to the JSON file
-                        string updatedJsonContent = JsonConvert.SerializeObject(links, Formatting.Indented);
-                        File.WriteAllText(jsonFilePath, updatedJsonContent);
-                    }
+                    Crawl.ImportResultsToDB();
                 }
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error checking and marking visited links: " + ex.Message);
-        }
+            else
+            {
+                Console.WriteLine("Link already saved.");
+            }
+
+            // Mark the link as visited
+            link.Visited = true;
+        }).ToList();
+
+        await Task.WhenAll(tasks);
+
+        // Serialize and save the updated links to the JSON file
+        string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+        string updatedJsonContent = JsonConvert.SerializeObject(links, Formatting.Indented);
+        File.WriteAllText(jsonFilePath, updatedJsonContent);
     }
+
 }

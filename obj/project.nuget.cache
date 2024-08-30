@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3SkuLOJC9vo1JKLavmAiB9mmMNbOrgM4GQrsGHYtfPz3pozE7vur6eaqSRVXxXabXRi9y21QR5lIR9OLkfdUiQ==",
+  "dgSpecHash": "THoOce+WA1TzO/u9g9XoG3yku+umhO7Lgoo3fpJnGwYscebV70tbkYf3nt6vtRg0/Ss8syjlEPet1J15vlguag==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\crawler.csproj",
+  "projectFilePath": "C:\\Users\\ardam\\Documents\\GitHub\\crawler cs\\crawler.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ardam\\.nuget\\packages\\htmlagilitypack\\1.11.52\\htmlagilitypack.1.11.52.nupkg.sha512",
     "C:\\Users\\ardam\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",

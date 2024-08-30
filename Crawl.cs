@@ -6,6 +6,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,8 +17,21 @@ namespace crawler
 {
     internal class Crawl
     {
+        public static string visitlist = string.Empty;
+        public static string resultsjson = string.Empty;
+
         public static Result result(string url)
         {
+            //Get the Results JSON
+            string resultspath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
+            if (File.Exists(resultspath))
+                resultsjson = File.ReadAllText(resultspath);
+
+            //Get the Visitlist
+            string visitpath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+            if (File.Exists(visitpath))
+                visitlist = File.ReadAllText(visitpath);
+
             Result result = new Result();
 
             try
@@ -71,7 +86,7 @@ namespace crawler
                 HtmlNode? metaKeywordsNode = doc.DocumentNode.SelectSingleNode("//meta[@name='keywords']");
                 if (metaKeywordsNode != null)
                 {
-                    result.Keywords = metaKeywordsNode.GetAttributeValue("content", "");
+                    result.Keywords = metaKeywordsNode.GetAttributeValue("content", "").Split();
                     rank++;
                     Console.WriteLine(result.Keywords);
                 }
@@ -114,48 +129,48 @@ namespace crawler
                 Console.WriteLine("Getting the a links");
                 try
                 {
-                    foreach (HtmlNode? linkNode in doc.DocumentNode.SelectNodes("//a[@href]"))
+                    string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+
+                    // Load existing results from JSON file once
+                    if (File.Exists(jsonFilePath))
+                    {
+                        string jsonContent = File.ReadAllText(jsonFilePath);
+                        links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
+                    }
+
+                    var linkNodes = doc.DocumentNode.SelectNodes("//a[@href]").ToList();
+                    Parallel.ForEach(linkNodes, async linkNode =>
                     {
                         string href = linkNode.GetAttributeValue("href", "");
                         string linkUrl = new Uri(new Uri(url), href).AbsoluteUri;
 
-                        Console.WriteLine(linkUrl);
-
-                        string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
-                        string jsonContent;
-
-                        // Load existing results from JSON file
-                        if (File.Exists(jsonFilePath))
-                        {
-                            jsonContent = File.ReadAllText(jsonFilePath);
-                            links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
-                        }
-
                         int permalink = linkUrl.IndexOf("#");
 
-                        if (!IsUrlInVisitList(linkUrl) && !IsUrlInLocal(linkUrl) && permalink < 0 && IsURL(linkUrl) && url != linkUrl)
+                        if (!IsUrlInVisitList(linkUrl, visitlist) && !IsUrlInLocal(linkUrl, resultsjson) && permalink < 0 && IsURL(linkUrl) && url != linkUrl)
                         {
                             // Initialize links as not visited
                             links.Add(new WebsiteLink { Url = linkUrl, Visited = false });
 
                             //Add href links to backlinks
-                            if(!GetBacklinks(url).Contains(linkUrl))
+                            List<string> getbacklinks = GetBacklinks(url);
+
+                            if (!getbacklinks.Contains(linkUrl))
                             {
                                 backlinks.Add(new Backlinks { Source = url, Target = linkUrl });
                             }
 
-                            // Save the links to the JSON file
-                            string newContent = JsonConvert.SerializeObject(links, Newtonsoft.Json.Formatting.Indented);
-                            File.WriteAllText(jsonFilePath, newContent);
-
-                            Console.WriteLine("Link saved:"  + linkUrl);
+                            Console.WriteLine("Link saved:" + linkUrl);
                         }
                         else
                         {
                             Console.WriteLine(linkUrl);
                             Console.WriteLine("Link already saved");
                         }
-                    }
+                    });
+
+                    // Save all links back to the JSON file once
+                    string newContent = JsonConvert.SerializeObject(links, Newtonsoft.Json.Formatting.Indented);
+                    File.WriteAllText(jsonFilePath, newContent);
                 }
                 catch(Exception ex)
                 {
@@ -164,7 +179,6 @@ namespace crawler
 
                 //Import Backlinks
                 ImportBacklinksToDB(backlinks);
-                backlinks.Clear();
 
                 //PageRank
                 double pagerank = PageRank.CalculatePageRank(url, BacklinkChecker.GetLinks(url), GetBacklinks(url));
@@ -186,16 +200,10 @@ namespace crawler
             return result;
         }
 
+        private static readonly Regex UrlRegex = new Regex(@"^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         static bool IsURL(string input)
         {
-            // Regular expression pattern to match URLs
-            string pattern = @"^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-
-            // Create Regex object
-            Regex regex = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            // Check if the input matches the URL pattern
-            return regex.IsMatch(input);
+            return UrlRegex.IsMatch(input);
         }
 
         static bool IsMainDirectory(string url)
@@ -247,7 +255,7 @@ namespace crawler
             return 0;
         }
 
-        public static void ImportResultsToDB()
+        public async static void ImportResultsToDB()
         {
             string connectionString = Config.conString;
             string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
@@ -301,7 +309,7 @@ namespace crawler
 
                         updateCommand.Parameters.AddWithValue("@URL", websiteInfo.URL);
 
-                        updateCommand.ExecuteNonQuery();
+                        await updateCommand.ExecuteNonQueryAsync();
                     }
                     else
                     {
@@ -325,7 +333,7 @@ namespace crawler
                             insertCommand.Parameters.AddWithValue("@Lang", websiteInfo.Lang);
                         else
                             insertCommand.Parameters.AddWithValue("@Lang", DBNull.Value);
-                        insertCommand.ExecuteNonQuery();
+                         await insertCommand.ExecuteNonQueryAsync();
                     }
                 }
 
@@ -358,7 +366,7 @@ namespace crawler
                 {
                     if(dt.Rows.Count > 0)
                     {
-                        bulkCopy.DestinationTableName = "Backlinks"; // Specify your table name
+                        bulkCopy.DestinationTableName = "Backlinks";
 
                         // Map the DataTable columns with the database table columns
                         bulkCopy.ColumnMappings.Add("Source", "Source");
@@ -395,7 +403,7 @@ namespace crawler
                     }
                 }
             }
-
+            connection.Close();
             return targets;
         }
 
@@ -411,16 +419,14 @@ namespace crawler
             command.Parameters.AddWithValue("@Url", url);
 
             int count = (int)command.ExecuteScalar();
+            connection.Close();
             return count > 0;
         }
 
-        public static bool IsUrlInVisitList(string url)
+        public static bool IsUrlInVisitList(string url, string jsonContent)
         {
-            string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
-
-            if (File.Exists(jsonFilePath))
+            if (jsonContent != string.Empty)
             {
-                string jsonContent = File.ReadAllText(jsonFilePath);
                 List<WebsiteLink> links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
 
                 return links.Exists(link => link.Url == url);
@@ -431,16 +437,13 @@ namespace crawler
             }
         }
 
-        public static bool IsUrlInLocal(string url)
+        public static bool IsUrlInLocal(string url, string jsonContent)
         {
-            string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
-
-            if (File.Exists(jsonFilePath))
+            if (jsonContent != string.Empty)
             {
-                string jsonContent = File.ReadAllText(jsonFilePath);
-                List<Result> links = JsonConvert.DeserializeObject<List<Result>>(jsonContent);
+                List<WebsiteLink> links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
 
-                return links.Exists(link => link.URL == url);
+                return links.Exists(link => link.Url == url);
             }
             else
             {
