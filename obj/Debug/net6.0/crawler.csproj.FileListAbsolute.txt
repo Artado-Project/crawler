@@ -1,72 +1,97 @@
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\crawler.exe
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\crawler.deps.json
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\crawler.runtimeconfig.json
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\crawler.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\crawler.pdb
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\System.Data.SqlClient.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.csproj.AssemblyReference.cache
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.AssemblyInfoInputs.cache
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.AssemblyInfo.cs
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.csproj.CoreCompileInputs.cache
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.csproj.CopyComplete
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\refint\crawler.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.pdb
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\crawler.genruntimeconfig.cache
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\obj\Debug\net6.0\ref\crawler.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\HtmlAgilityPack.dll
-C:\Users\arda.DESKTOP-73M5J5F\source\repos\crawler\crawler\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\crawler.exe
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\crawler.deps.json
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\crawler.runtimeconfig.json
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\crawler.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\crawler.pdb
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\HtmlAgilityPack.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\System.Data.SqlClient.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\ardam\Documents\GitHub\crawler\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.csproj.AssemblyReference.cache
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.AssemblyInfoInputs.cache
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.AssemblyInfo.cs
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.csproj.CoreCompileInputs.cache
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.csproj.CopyComplete
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.dll
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\refint\crawler.dll
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.pdb
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\crawler.genruntimeconfig.cache
-C:\Users\ardam\Documents\GitHub\crawler\obj\Debug\net6.0\ref\crawler.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.exe
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.deps.json
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.runtimeconfig.json
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\crawler.pdb
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\HtmlAgilityPack.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\Newtonsoft.Json.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\System.Data.SqlClient.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win-arm64\native\sni.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win-x86\native\sni.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.csproj.AssemblyReference.cache
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.AssemblyInfoInputs.cache
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.AssemblyInfo.cs
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.csproj.CoreCompileInputs.cache
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.csproj.CopyComplete
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\refint\crawler.dll
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.pdb
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\crawler.genruntimeconfig.cache
-C:\Users\ardam\Documents\GitHub\crawler cs\obj\Debug\net6.0\ref\crawler.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/crawler.exe
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/crawler.deps.json
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/crawler.runtimeconfig.json
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/crawler.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/crawler.pdb
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/System.Data.SqlClient.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/runtimes/win-arm64/native/sni.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/runtimes/win-x64/native/sni.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/runtimes/win-x86/native/sni.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.csproj.AssemblyReference.cache
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.AssemblyInfoInputs.cache
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.AssemblyInfo.cs
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.csproj.CoreCompileInputs.cache
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.csproj.CopyComplete
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/refint/crawler.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.pdb
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/crawler.genruntimeconfig.cache
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/obj/Debug/net6.0/ref/crawler.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/HtmlAgilityPack.dll
+C:/Users/arda.DESKTOP-73M5J5F/source/repos/crawler/crawler/bin/Debug/net6.0/Newtonsoft.Json.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/crawler.exe
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/crawler.deps.json
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/crawler.runtimeconfig.json
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/crawler.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/crawler.pdb
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/HtmlAgilityPack.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/Newtonsoft.Json.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/System.Data.SqlClient.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/runtimes/win-arm64/native/sni.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/runtimes/win-x64/native/sni.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/runtimes/win-x86/native/sni.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll
+C:/Users/ardam/Documents/GitHub/crawler/bin/Debug/net6.0/runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.csproj.AssemblyReference.cache
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.AssemblyInfoInputs.cache
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.AssemblyInfo.cs
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.csproj.CoreCompileInputs.cache
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.csproj.CopyComplete
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.dll
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/refint/crawler.dll
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.pdb
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/crawler.genruntimeconfig.cache
+C:/Users/ardam/Documents/GitHub/crawler/obj/Debug/net6.0/ref/crawler.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/crawler.exe
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/crawler.deps.json
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/crawler.runtimeconfig.json
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/crawler.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/crawler.pdb
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/HtmlAgilityPack.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/Newtonsoft.Json.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/System.Data.SqlClient.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/runtimes/win-arm64/native/sni.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/runtimes/win-x64/native/sni.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/runtimes/win-x86/native/sni.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp2.1/System.Data.SqlClient.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/bin/Debug/net6.0/runtimes/win/lib/netcoreapp2.1/System.Data.SqlClient.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.csproj.AssemblyReference.cache
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.AssemblyInfoInputs.cache
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.AssemblyInfo.cs
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.csproj.CoreCompileInputs.cache
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.csproj.CopyComplete
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/refint/crawler.dll
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.pdb
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/crawler.genruntimeconfig.cache
+C:/Users/ardam/Documents/GitHub/crawler cs/obj/Debug/net6.0/ref/crawler.dll
+/home/arda/crawler/obj/Debug/net6.0/crawler.csproj.AssemblyReference.cache
+/home/arda/crawler/obj/Debug/net6.0/crawler.GeneratedMSBuildEditorConfig.editorconfig
+/home/arda/crawler/obj/Debug/net6.0/crawler.AssemblyInfoInputs.cache
+/home/arda/crawler/obj/Debug/net6.0/crawler.AssemblyInfo.cs
+/home/arda/crawler/obj/Debug/net6.0/crawler.csproj.CoreCompileInputs.cache
+/home/arda/crawler/obj/Debug/net6.0/crawler.sourcelink.json
+/home/arda/crawler/obj/Debug/net6.0/crawler.dll
+/home/arda/crawler/obj/Debug/net6.0/refint/crawler.dll
+/home/arda/crawler/obj/Debug/net6.0/crawler.pdb
+/home/arda/crawler/bin/Debug/net6.0/crawler
+/home/arda/crawler/bin/Debug/net6.0/crawler.deps.json
+/home/arda/crawler/bin/Debug/net6.0/crawler.runtimeconfig.json
+/home/arda/crawler/bin/Debug/net6.0/crawler.dll
+/home/arda/crawler/bin/Debug/net6.0/crawler.pdb
+/home/arda/crawler/bin/Debug/net6.0/HtmlAgilityPack.dll
+/home/arda/crawler/bin/Debug/net6.0/Newtonsoft.Json.dll
+/home/arda/crawler/bin/Debug/net6.0/System.Data.SqlClient.dll
+/home/arda/crawler/bin/Debug/net6.0/runtimes/win-arm64/native/sni.dll
+/home/arda/crawler/bin/Debug/net6.0/runtimes/win-x64/native/sni.dll
+/home/arda/crawler/bin/Debug/net6.0/runtimes/win-x86/native/sni.dll
+/home/arda/crawler/bin/Debug/net6.0/runtimes/unix/lib/net6.0/System.Data.SqlClient.dll
+/home/arda/crawler/bin/Debug/net6.0/runtimes/win/lib/net6.0/System.Data.SqlClient.dll
+/home/arda/crawler/obj/Debug/net6.0/crawler.csproj.Up2Date
+/home/arda/crawler/obj/Debug/net6.0/crawler.genruntimeconfig.cache
+/home/arda/crawler/obj/Debug/net6.0/ref/crawler.dll

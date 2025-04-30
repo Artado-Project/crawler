@@ -2,12 +2,14 @@
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 
+Console.WriteLine("Enter website URL:");
 string websiteUrl = Console.ReadLine();
-
 string robotsUrl = websiteUrl + "/robots.txt";
 
-List<string> disallowedUrls = Robots.GetDisallowedUrls(robotsUrl);
+// Get base directory for file operations
+string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
+List<string> disallowedUrls = Robots.GetDisallowedUrls(robotsUrl);
 Console.WriteLine("Disallowed URLs in robots.txt:");
 foreach (string url in disallowedUrls)
 {
@@ -19,19 +21,19 @@ string resultsjson = string.Empty;
 
 for (int i = 0; i >= 0; i++)
 {
-    //Get the Results JSON
-    string resultspath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
+    // Get the Results JSON
+    string resultspath = Path.Combine(baseDirectory, "results.json");
     if (File.Exists(resultspath))
         resultsjson = File.ReadAllText(resultspath);
 
-    //Get the Visitlist
-    string visitpath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+    // Get the Visitlist
+    string visitpath = Path.Combine(baseDirectory, "visitlist.json");
     if (File.Exists(visitpath))
         visitlist = File.ReadAllText(visitpath);
-    if (!Crawl.IsUrlInLocal(websiteUrl, resultsjson))
+
+    if (!Crawl.IsUrlInLocal(websiteUrl, resultsjson) && !Crawl.IsUrlInElasticSearch(websiteUrl))
     {
         bool urlcheck = Robots.IsUrlDisallowed(websiteUrl, disallowedUrls);
-
         if (urlcheck == true)
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -41,50 +43,51 @@ for (int i = 0; i >= 0; i++)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Allowed");
-
             Result result = Crawl.result(websiteUrl);
             Console.WriteLine(result.Title);
             Console.WriteLine(result.URL);
             Console.WriteLine(result.Description);
             Console.WriteLine(result.Keywords);
 
+            // Import to ElasticSearch if we have enough results
             if (Crawl.GetResultCountFromJson() > 30)
             {
-                Crawl.ImportResultsToDB();
+                await Crawl.ImportResultsToElasticSearch();
             }
-
-            Main.MainFunc(websiteUrl, disallowedUrls, visitlist);
+            
+            CrawlerMain.MainFunc(websiteUrl, disallowedUrls, visitlist);
         }
     }
     else
     {
-        Console.WriteLine("Link already saved");
-
-        Main.MainFunc(websiteUrl, disallowedUrls, visitlist);
+        Console.WriteLine("Link already savet");
+        CrawlerMain.MainFunc(websiteUrl, disallowedUrls, visitlist);
     }
 }
 
-class Main
+class CrawlerMain
 {
-    public async static Task MainFunc(string websiteUrl, List<string> disallowedUrls, string jsonContent)
+    public static void MainFunc(string websiteUrl, List<string> disallowedUrls, string jsonContent)
     {
+        string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         List<WebsiteLink> links = new List<WebsiteLink>();
-
-        if (jsonContent != string.Empty)
+        
+        if (!string.IsNullOrEmpty(jsonContent))
         {
             links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
         }
 
-        var tasks = links.Where(link => !link.Visited).Select(async link =>
+        // Process links synchronously instead of using tasks
+        foreach (var link in links.Where(link => !link.Visited).ToList())
         {
             Console.WriteLine("Getting the links from the list");
             int permalink = link.Url.IndexOf("#");
-
             bool linkcheck = UrlComparer.AreUrlsDifferent(websiteUrl, link.Url)
                 ? Robots.IsUrlDisallowed(link.Url, Robots.GetDisallowedUrls(link.Url + "/robots.txt"))
                 : Robots.IsUrlDisallowed(link.Url, disallowedUrls);
 
-            if (!linkcheck && !Crawl.IsUrlInLocal(link.Url, jsonContent) && permalink < 0)
+            if (!linkcheck && !Crawl.IsUrlInLocal(link.Url, jsonContent) && 
+                !Crawl.IsUrlInElasticSearch(link.Url) && permalink < 0)
             {
                 Result a_result = Crawl.result(link.Url);
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -94,26 +97,24 @@ class Main
                 Console.WriteLine(a_result.Description);
                 Console.WriteLine(a_result.Keywords);
 
+                // Import to ElasticSearch if we have enough results
                 if (Crawl.GetResultCountFromJson() > 30)
                 {
-                    Crawl.ImportResultsToDB();
+                    Crawl.ImportResultsToElasticSearch().Wait(); // Using .Wait() to synchronously wait for task completion
                 }
             }
             else
             {
-                Console.WriteLine("Link already saved.");
+                Console.WriteLine("Link already saved or disallowed.");
             }
 
             // Mark the link as visited
             link.Visited = true;
-        }).ToList();
-
-        await Task.WhenAll(tasks);
+        }
 
         // Serialize and save the updated links to the JSON file
-        string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+        string jsonFilePath = Path.Combine(baseDirectory, "visitlist.json");
         string updatedJsonContent = JsonConvert.SerializeObject(links, Formatting.Indented);
         File.WriteAllText(jsonFilePath, updatedJsonContent);
     }
-
 }

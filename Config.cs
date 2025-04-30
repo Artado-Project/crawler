@@ -1,13 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace crawler
 {
-    internal class Config
+    public static class Config
     {
-        public static string conString = "Data Source=89.252.181.210\\MSSQLSERVER2019;Initial Catalog=artadoco_search;Persist Security Info=True;User ID=artadoco_admin;pwd=EbEXrdF%U=T4?9,;MultipleActiveResultSets=True";
+        // ElasticSearch configuration
+        public static string ElasticSearchUrl { get; set; } = "http://localhost:9200";
+        
+        // Add any other configuration parameters here
+        public static int MaxConcurrentRequests { get; set; } = 5;
+        public static int RequestTimeoutSeconds { get; set; } = 30;
+        
+        // Initialize configuration from environment variables or config file
+        static Config()
+        {
+            // Read from environment variables if available
+            string esUrl = Environment.GetEnvironmentVariable("ELASTICSEARCH_URL");
+            if (!string.IsNullOrEmpty(esUrl))
+            {
+                ElasticSearchUrl = esUrl;
+            }
+        }
     }
 }

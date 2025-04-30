@@ -2,16 +2,11 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace crawler
 {
@@ -19,16 +14,17 @@ namespace crawler
     {
         public static string visitlist = string.Empty;
         public static string resultsjson = string.Empty;
+        private static readonly string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         public static Result result(string url)
         {
-            //Get the Results JSON
-            string resultspath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
+            // Get the Results JSON
+            string resultspath = Path.Combine(BaseDirectory, "results.json");
             if (File.Exists(resultspath))
                 resultsjson = File.ReadAllText(resultspath);
 
-            //Get the Visitlist
-            string visitpath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+            // Get the Visitlist
+            string visitpath = Path.Combine(BaseDirectory, "visitlist.json");
             if (File.Exists(visitpath))
                 visitlist = File.ReadAllText(visitpath);
 
@@ -36,7 +32,7 @@ namespace crawler
 
             try
             {
-                //Rank
+                // Rank
                 double rank = 0;
 
                 WebClient webClient = new WebClient();
@@ -50,7 +46,7 @@ namespace crawler
                 result.Title = doc.DocumentNode.SelectSingleNode("//title")?.InnerText;
                 Console.WriteLine(result.Title);
 
-                //URL
+                // URL
                 result.URL = url;
                 Console.WriteLine(result.URL);
 
@@ -101,35 +97,33 @@ namespace crawler
                     Console.WriteLine(result.Lang);
                 }
 
-                //Mobile Support
+                // Mobile Support
                 HtmlNode? mobileNode = doc.DocumentNode.SelectSingleNode("//meta[@name='viewport']");
                 if (mobileNode != null)
                 {
                     rank++;
                 }
 
-                //Homepage detection
+                // Homepage detection
                 if (IsMainDirectory(url))
                 {
-                    rank ++;
+                    rank++;
                 }
 
-                //Priotize the wikipedia results
+                // Prioritize the wikipedia results
                 int wiki = url.IndexOf("wikipedia.org");
                 if(wiki >= 0)
                 {
-                    rank ++;
+                    rank++;
                 }
 
                 // Find all <a> tags
                 List<WebsiteLink> links = new List<WebsiteLink>();
-                //For the backlinks
-                List<Backlinks> backlinks = new List<Backlinks>();
 
                 Console.WriteLine("Getting the a links");
                 try
                 {
-                    string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\visitlist.json";
+                    string jsonFilePath = Path.Combine(BaseDirectory, "visitlist.json");
 
                     // Load existing results from JSON file once
                     if (File.Exists(jsonFilePath))
@@ -138,35 +132,29 @@ namespace crawler
                         links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
                     }
 
-                    var linkNodes = doc.DocumentNode.SelectNodes("//a[@href]").ToList();
-                    Parallel.ForEach(linkNodes, async linkNode =>
+                    var linkNodes = doc.DocumentNode.SelectNodes("//a[@href]")?.ToList();
+                    if (linkNodes != null)
                     {
-                        string href = linkNode.GetAttributeValue("href", "");
-                        string linkUrl = new Uri(new Uri(url), href).AbsoluteUri;
-
-                        int permalink = linkUrl.IndexOf("#");
-
-                        if (!IsUrlInVisitList(linkUrl, visitlist) && !IsUrlInLocal(linkUrl, resultsjson) && permalink < 0 && IsURL(linkUrl) && url != linkUrl)
+                        Parallel.ForEach(linkNodes, linkNode =>
                         {
-                            // Initialize links as not visited
-                            links.Add(new WebsiteLink { Url = linkUrl, Visited = false });
+                            string href = linkNode.GetAttributeValue("href", "");
+                            string linkUrl = new Uri(new Uri(url), href).AbsoluteUri;
 
-                            //Add href links to backlinks
-                            List<string> getbacklinks = GetBacklinks(url);
+                            int permalink = linkUrl.IndexOf("#");
 
-                            if (!getbacklinks.Contains(linkUrl))
+                            if (!IsUrlInVisitList(linkUrl, visitlist) && !IsUrlInLocal(linkUrl, resultsjson) && permalink < 0 && IsURL(linkUrl) && url != linkUrl)
                             {
-                                backlinks.Add(new Backlinks { Source = url, Target = linkUrl });
+                                // Initialize links as not visited
+                                links.Add(new WebsiteLink { Url = linkUrl, Visited = false });
+                                Console.WriteLine("Link saved:" + linkUrl);
                             }
-
-                            Console.WriteLine("Link saved:" + linkUrl);
-                        }
-                        else
-                        {
-                            Console.WriteLine(linkUrl);
-                            Console.WriteLine("Link already saved");
-                        }
-                    });
+                            else
+                            {
+                                Console.WriteLine(linkUrl);
+                                Console.WriteLine("Link already saved");
+                            }
+                        });
+                    }
 
                     // Save all links back to the JSON file once
                     string newContent = JsonConvert.SerializeObject(links, Newtonsoft.Json.Formatting.Indented);
@@ -177,20 +165,15 @@ namespace crawler
                     Console.WriteLine("No a tags in this site. Error: " + ex);
                 }
 
-                //Import Backlinks
-                ImportBacklinksToDB(backlinks);
-
-                //PageRank
-                double pagerank = PageRank.CalculatePageRank(url, BacklinkChecker.GetLinks(url), GetBacklinks(url));
-                Console.WriteLine("PageRank: " + pagerank);
-
-                //Add pagerank to rank
-                rank += pagerank;
+                // Final rank calculation
                 Console.WriteLine("Rank: " + rank);
 
                 result.Rank = rank;
 
                 SaveWebsiteInfoToJson(result);
+                
+                // Index in ElasticSearch
+                IndexWebsiteInElasticSearch(result);
             }
             catch (WebException ex)
             {
@@ -222,7 +205,7 @@ namespace crawler
 
         static void SaveWebsiteInfoToJson(Result websiteInfo)
         {
-            string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
+            string jsonFilePath = Path.Combine(BaseDirectory, "results.json");
             List<Result> results = new List<Result>();
 
             // Load existing results from JSON file
@@ -242,7 +225,7 @@ namespace crawler
 
         public static int GetResultCountFromJson()
         {
-            string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
+            string jsonFilePath = Path.Combine(BaseDirectory, "results.json");
 
             if (File.Exists(jsonFilePath))
             {
@@ -255,200 +238,163 @@ namespace crawler
             return 0;
         }
 
-        public async static void ImportResultsToDB()
+        // ElasticSearch Methods
+        public static async Task ImportResultsToElasticSearch()
         {
-            string connectionString = Config.conString;
-            string jsonFilePath = "C:\\Users\\ardam\\Documents\\GitHub\\crawler\\results.json";
+            string jsonFilePath = Path.Combine(BaseDirectory, "results.json");
 
             try
             {
-                using SqlConnection connection = new SqlConnection(connectionString);
-                if (connection.State == ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
-
-                // Read JSON file and insert data into the table
+                // Read JSON file
                 string jsonContent = File.ReadAllText(jsonFilePath);
                 List<Result> results = JsonConvert.DeserializeObject<List<Result>>(jsonContent);
 
+                // Process each result and index it in ElasticSearch
                 foreach (Result websiteInfo in results)
                 {
-                    if (IsUrlInDB(websiteInfo.URL))
-                    {
-                        string updateQuery = "UPDATE WebResults SET " +
-                                                                    "Title = @Title, " +
-                                                                    "Description = @Description, " +
-                                                                    "Keywords = @Keywords, " +
-                                                                    "Rank = @Rank, " +
-                                                                    "Lang = @Lang " +
-                                                                    "WHERE URL = @URL";
-
-                        using SqlCommand updateCommand = new SqlCommand(updateQuery, connection);
-                        if (websiteInfo.Title != null)
-                            updateCommand.Parameters.AddWithValue("@Title", websiteInfo.Title);
-                        else
-                            updateCommand.Parameters.AddWithValue("@Title", DBNull.Value);
-
-                        if (websiteInfo.Description != null)
-                            updateCommand.Parameters.AddWithValue("@Description", websiteInfo.Description);
-                        else
-                            updateCommand.Parameters.AddWithValue("@Description", DBNull.Value);
-
-                        if (websiteInfo.Keywords != null)
-                            updateCommand.Parameters.AddWithValue("@Keywords", websiteInfo.Keywords);
-                        else
-                            updateCommand.Parameters.AddWithValue("@Keywords", DBNull.Value);
-
-                        updateCommand.Parameters.AddWithValue("@Rank", websiteInfo.Rank);
-
-                        if (websiteInfo.Lang != null)
-                            updateCommand.Parameters.AddWithValue("@Lang", websiteInfo.Lang);
-                        else
-                            updateCommand.Parameters.AddWithValue("@Lang", DBNull.Value);
-
-                        updateCommand.Parameters.AddWithValue("@URL", websiteInfo.URL);
-
-                        await updateCommand.ExecuteNonQueryAsync();
-                    }
-                    else
-                    {
-                        string insertQuery = "INSERT INTO WebResults (Title, URL, Description, Keywords, Rank, Lang) VALUES (@Title, @URL, @Description, @Keywords, @Rank, @Lang)";
-                        using SqlCommand insertCommand = new SqlCommand(insertQuery, connection);
-                        if (websiteInfo.Title != null)
-                            insertCommand.Parameters.AddWithValue("@Title", websiteInfo.Title);
-                        else
-                            insertCommand.Parameters.AddWithValue("@Title", DBNull.Value);
-                        insertCommand.Parameters.AddWithValue("@URL", websiteInfo.URL);
-                        if (websiteInfo.Description != null)
-                            insertCommand.Parameters.AddWithValue("@Description", websiteInfo.Description);
-                        else
-                            insertCommand.Parameters.AddWithValue("@Description", DBNull.Value);
-                        if (websiteInfo.Keywords != null)
-                            insertCommand.Parameters.AddWithValue("@Keywords", websiteInfo.Keywords);
-                        else
-                            insertCommand.Parameters.AddWithValue("@Keywords", DBNull.Value);
-                        insertCommand.Parameters.AddWithValue("@Rank", websiteInfo.Rank);
-                        if (websiteInfo.Lang != null)
-                            insertCommand.Parameters.AddWithValue("@Lang", websiteInfo.Lang);
-                        else
-                            insertCommand.Parameters.AddWithValue("@Lang", DBNull.Value);
-                         await insertCommand.ExecuteNonQueryAsync();
-                    }
+                    await IndexWebsiteInElasticSearch(websiteInfo);
                 }
 
-                Console.WriteLine("Results imported to MSSQL Database.");
+                Console.WriteLine("Results imported to ElasticSearch.");
 
-                connection.Close();
-
+                // Optionally delete the file after successful import
                 File.Delete(jsonFilePath);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error importing results to MSSQL: " + ex.Message);
+                Console.WriteLine("Error importing results to ElasticSearch: " + ex.Message);
             }
         }
 
-        public static void ImportBacklinksToDB(List<Backlinks> links)
+        private static async Task IndexWebsiteInElasticSearch(Result result)
         {
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(links);
-            DataTable dt = JsonConvert.DeserializeObject<DataTable>(json);
-
-            string connectionString = Config.conString;
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                if(connection.State == ConnectionState.Closed)
-                {
-                    connection.Open();
-                }
+                // Convert the result to JSON
+                string jsonData = JsonConvert.SerializeObject(result);
+                
+                // ElasticSearch endpoint - should be configurable
+                string elasticSearchUrl = Config.ElasticSearchUrl;
+                string indexUrl = $"{elasticSearchUrl}/artadosearch/_doc";
+                
+                // Check if document exists to determine update or insert
+                bool exists = await CheckIfDocumentExists(elasticSearchUrl, result.URL);
+                
+                // Use appropriate URL for update or insert
+                string finalUrl = exists 
+                    ? $"{indexUrl}/{WebUtility.UrlEncode(result.URL)}/_update" 
+                    : $"{indexUrl}/{WebUtility.UrlEncode(result.URL)}";
 
-                using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
+                // Format data for update if needed
+                string requestData = exists
+                    ? $"{{\"doc\":{jsonData}}}"
+                    : jsonData;
+
+                // Use WebClient to send data to ElasticSearch
+                using (WebClient client = new WebClient())
                 {
-                    if(dt.Rows.Count > 0)
+                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    
+                    if (exists)
                     {
-                        bulkCopy.DestinationTableName = "Backlinks";
-
-                        // Map the DataTable columns with the database table columns
-                        bulkCopy.ColumnMappings.Add("Source", "Source");
-                        bulkCopy.ColumnMappings.Add("Target", "Target");
-
-                        // Write the DataTable to the database
-                        bulkCopy.WriteToServer(dt);
-
-                        connection.Close();
+                        // For update
+                        string response = client.UploadString(finalUrl, "POST", requestData);
+                        Console.WriteLine($"Updated document in ElasticSearch: {result.URL}");
+                    }
+                    else
+                    {
+                        // For insert
+                        string response = client.UploadString(finalUrl, "PUT", requestData);
+                        Console.WriteLine($"Indexed new document in ElasticSearch: {result.URL}");
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error indexing document in ElasticSearch: {ex.Message}");
+            }
         }
 
-        static List<string> GetBacklinks(string url)
+        private static async Task<bool> CheckIfDocumentExists(string elasticSearchBaseUrl, string url)
         {
-            List<string> targets = new List<string>();
-
-            string connectionString = Config.conString;
-            SqlConnection connection = new SqlConnection(connectionString);
-
-            string sqlQuery = "SELECT Target FROM Backlinks WHERE Target = @Url";
-            using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+            try
             {
-                command.Parameters.AddWithValue("@Url", url);
-                connection.Open();
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                string encodedUrl = WebUtility.UrlEncode(url);
+                string requestUrl = $"{elasticSearchBaseUrl}/artadosearch/_doc/{encodedUrl}";
+                
+                WebClient client = new WebClient();
+                try
                 {
-                    while (reader.Read())
+                    string response = client.DownloadString(requestUrl);
+                    // Parse the response to check if document exists
+                    dynamic jsonResponse = JsonConvert.DeserializeObject(response);
+                    return jsonResponse.found == true;
+                }
+                catch (WebException ex)
+                {
+                    // 404 indicates document doesn't exist
+                    if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.NotFound)
                     {
-                        string target = Convert.ToString(reader["Target"]);
-                        targets.Add(target);
+                        return false;
                     }
+                    throw;
                 }
             }
-            connection.Close();
-            return targets;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error checking document existence: {ex.Message}");
+                return false;
+            }
         }
 
-        public static bool IsUrlInDB(string url)
+        public static bool IsUrlInElasticSearch(string url)
         {
-            string connectionString = Config.conString;
-            string query = "SELECT COUNT(*) FROM WebResults WHERE URL = @Url";
-
-            using SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-
-            using SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@Url", url);
-
-            int count = (int)command.ExecuteScalar();
-            connection.Close();
-            return count > 0;
+            try
+            {
+                string encodedUrl = WebUtility.UrlEncode(url);
+                string elasticSearchUrl = Config.ElasticSearchUrl;
+                string requestUrl = $"{elasticSearchUrl}/artadosearch/_doc/{encodedUrl}";
+                
+                WebClient client = new WebClient();
+                try
+                {
+                    string response = client.DownloadString(requestUrl);
+                    dynamic jsonResponse = JsonConvert.DeserializeObject(response);
+                    return jsonResponse.found == true;
+                }
+                catch (WebException ex)
+                {
+                    if (((HttpWebResponse)ex.Response).StatusCode == HttpStatusCode.NotFound)
+                    {
+                        return false;
+                    }
+                    throw;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static bool IsUrlInVisitList(string url, string jsonContent)
         {
-            if (jsonContent != string.Empty)
+            if (!string.IsNullOrEmpty(jsonContent))
             {
                 List<WebsiteLink> links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
-
-                return links.Exists(link => link.Url == url);
+                return links != null && links.Exists(link => link.Url == url);
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public static bool IsUrlInLocal(string url, string jsonContent)
         {
-            if (jsonContent != string.Empty)
+            if (!string.IsNullOrEmpty(jsonContent))
             {
-                List<WebsiteLink> links = JsonConvert.DeserializeObject<List<WebsiteLink>>(jsonContent);
-
-                return links.Exists(link => link.Url == url);
+                List<Result> results = JsonConvert.DeserializeObject<List<Result>>(jsonContent);
+                return results != null && results.Exists(result => result.URL == url);
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }
